@@ -1,3 +1,16 @@
 {% extends "base.html" %}
 {% block title %} Criar Produto {% endblock %}
+{% load crispy_forms_tags %}
 
+{% block content %}
+    <h1 class="text-center mb-4">Criar Produto</h1>
+    <div class="row container">
+        <div class="col-md-6 offset-md-3">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% crispy form %}
+            </form>
+        </div>
+    </div>
+    <br>
+{% endblock %}

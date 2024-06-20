@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
 
@@ -7,4 +9,4 @@ urlpatterns = [
     path('edit/<int:id>', views.update_product, name='update_product'),
     path('delete/<int:id>', views.delete_product, name='delete_product'),
     path('view/<int:id>', views.view_product, name='view_product')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

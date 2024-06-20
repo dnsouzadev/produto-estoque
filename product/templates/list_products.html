@@ -1,15 +1,31 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %} Produtos {% endblock %}
 
 {% block content %}
-    <h1>Produtos</h1>
-    <ul>
-        {% if not products %}
-            <li>Nenhum produto encontrado</li>
-        {% else %}
-            {% for product in products %}
-                <li>{{ product.name }} - R$ {{ product.price }}</li>
-            {% endfor %}
-        {% endif %}
-    </ul>
+    <div class="container">
+        <h1 class="text-center mb-4">Produtos</h1>
+        <div class="row">
+            {% if not products %}
+                <div class="col">
+                    <p class="text-center">Nenhum produto encontrado</p>
+                </div>
+            {% else %}
+                {% for product in products %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="profile-image text-center">
+                                <img src="{% if product.photo %}{{ product.photo.url }}{% else %}{% static 'img/default-avatar.png' %}{% endif %}" width="280px" height="250px" alt="Avatar" class="img-thumbnail">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">Preço: R$ {{ product.price }}</p>
+                                <a href="#" class="btn btn-primary">Ver detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
