@@ -1,2 +1,70 @@
 {% extends "base.html" %}
-{% block title %} Produto {% endblock %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-DQsTnh/0Hw6bZV4W0H0DvhLM59tltpSTCA4AON14g7NQ7a8eKB2MgKg4gBLLB+liTALhIiC/O0SOqtfOrWdkTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    /* Estilos específicos para os detalhes do produto */
+    .product-details-container {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin-top: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .product-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .product-actions .btn {
+        margin-left: 10px;
+    }
+    .product-image {
+        height: auto; /* Altura automática para manter proporção */
+        max-width: 100%; /* Largura máxima para evitar esticamento */
+    }
+    .product-description {
+        margin-top: 20px;
+    }
+    .product-info {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+    .product-info li {
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block title %} Detalhes do Produto {% endblock %}
+
+{% block content %}
+<div class="container product-details-container">
+
+    <div class="product-header">
+        <h1>{{ product.name }}</h1>
+        <div class="product-actions">
+            <a href="{% url 'update_product' product.id %}" class="btn btn-info"><i class="fas fa-pencil-alt"></i> Editar</a>
+            <a href="{% url 'list_products' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+        </div>
+    </div>
+
+    <img src="{% if product.photo %}{{ product.photo.url }}{% else %}{% static 'img/default-avatar.png' %}{% endif %}" class="card-img-top product-image" alt="Imagem do Produto">
+
+    <div class="product-description">
+        <p>{{ product.description }}</p>
+    </div>
+
+    <ul class="product-info">
+        <li><strong>Preço:</strong> R$ {{ product.price }}</li>
+        <li><strong>Quantidade Restante:</strong> {{ product.quantity }}</li>
+        <li><strong>Disponível:</strong> {% if product.available == 'S' %}Sim{% else %}Não{% endif %}</li>
+    </ul>
+
+</div>
+
+{% endblock %}

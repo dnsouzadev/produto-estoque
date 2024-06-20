@@ -1,31 +1,39 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %} Produtos {% endblock %}
+
+{% block title %}Produtos{% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container-xl">
         <h1 class="text-center mb-4">Produtos</h1>
-        <div class="row">
-            {% if not products %}
-                <div class="col">
-                    <p class="text-center">Nenhum produto encontrado</p>
-                </div>
-            {% else %}
-                {% for product in products %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <div class="profile-image text-center">
-                                <img src="{% if product.photo %}{{ product.photo.url }}{% else %}{% static 'img/default-avatar.png' %}{% endif %}" width="280px" height="250px" alt="Avatar" class="img-thumbnail">
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">{{ product.name }}</h5>
-                                <p class="card-text">Preço: R$ {{ product.price }}</p>
-                                <a href="#" class="btn btn-primary">Ver detalhes</a>
-                            </div>
+
+        <div class="mb-4">
+            <a href="{% url 'create_product' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar Produto</a>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-3">
+            {% for product in products %}
+                <div class="col mb-4">
+                    <div class="card h-100">
+                        <img src="{% if product.photo %}{{ product.photo.url }}{% else %}{% static 'img/default-avatar.png' %}{% endif %}" class="card-img-top" alt="Imagem do Produto">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Preço:</strong> R$ {{ product.price }}</li>
+                            <li class="list-group-item"><strong>Quantidade Restante:</strong> {{ product.quantity }}</li>
+                            <li class="list-group-item"><strong>Disponível:</strong> {% if product.available == 'S' %}Sim{% else %}Não{% endif %}</li>
+                        </ul>
+                        <div class="card-footer d-flex justify-content-center">
+                            <a href="{% url 'update_product' product.id %}" class="btn btn-outline-info btn-sm mr-2">Editar</a>
+                            <a onclick="deleteProduct({{ product.id }})" class="btn btn-outline-danger btn-sm mr-2">Excluir</a>
+                            <a href="{% url 'view_product' product.id %}" class="btn btn-outline-secondary btn-sm">Ver</a>
                         </div>
                     </div>
-                {% endfor %}
-            {% endif %}
+                </div>
+            {% endfor %}
         </div>
     </div>
+    <script src="{% static 'js/scripts.js' %}"></script>
 {% endblock %}
